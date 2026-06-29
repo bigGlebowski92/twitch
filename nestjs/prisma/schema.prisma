@@ -18,7 +18,7 @@ model User {
   password    String
   username    String   @unique
   displayName String   @map("display_name")
-  avatar      String   @default("https://cdn.discordapp.com/embed/avatars/0.png")
+  avatar      String   @default("https://static-cdn.jtvnw.net/jtv_user_pictures/default-profile_image-300x300.png")
   bio         String
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
