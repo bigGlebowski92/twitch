@@ -1,7 +1,6 @@
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
-import { RedisStore } from 'connect-redis';
 import 'dotenv/config';
 import { CoreModule } from './core/core.module';
 import { RedisService } from './core/redis/redis.service';
@@ -45,10 +44,9 @@ async function bootstrap() {
         secure: parseSessionSecure(config.getOrThrow<string>('SESSION_SECURE')),
         sameSite: 'lax',
       },
-      store: new RedisStore({
-        client: redis,
-        prefix: config.getOrThrow<string>('SESSION_FOLDER'),
-      }),
+      store: redis.createSessionStore(
+        config.getOrThrow<string>('SESSION_FOLDER'),
+      ),
     }),
   );
 
