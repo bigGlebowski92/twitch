@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { User } from '@prisma/generated/browser';
 import { hash } from 'argon2';
 import { PrismaService } from '../../../core/prisma/prisma.service';
@@ -8,8 +12,16 @@ import { CreateUserInput } from './inputs/create-user.input';
 export class AccountService {
   public constructor(private readonly prismaService: PrismaService) {}
 
-  public async findAll(): Promise<User[]> {
-    return this.prismaService.user.findMany();
+  public async me(id: string): Promise<User> {
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user;
   }
 
   public async create(input: CreateUserInput): Promise<User> {

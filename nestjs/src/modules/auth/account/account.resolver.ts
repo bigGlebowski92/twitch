@@ -1,5 +1,6 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { User } from '@prisma/generated/browser';
+import { Authorization } from '@/shared/decorators/auth.decorator';
+import { Authorized } from '@/shared/decorators/authorized.decorator';
 import { AccountService } from './account.service';
 import { CreateUserInput } from './inputs/create-user.input';
 import { UserModel } from './models/user.model';
@@ -8,9 +9,10 @@ import { UserModel } from './models/user.model';
 export class AccountResolver {
   constructor(private readonly accountService: AccountService) {}
 
-  @Query(() => [UserModel], { name: 'findAllUsers' })
-  public async findAll(): Promise<User[]> {
-    return this.accountService.findAll();
+  @Authorization()
+  @Query(() => UserModel, { name: 'me' })
+  public async me(@Authorized('id') id: string): Promise<UserModel> {
+    return this.accountService.me(id);
   }
 
   @Mutation(() => UserModel, { name: 'createUser' })

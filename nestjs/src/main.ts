@@ -19,6 +19,14 @@ function parseSessionSecure(value: string): boolean | 'auto' {
   return parseBooleanOrThrow(value);
 }
 
+function getSessionCookieDomain(value: string): string | undefined {
+  if (!value || value === 'localhost') {
+    return undefined;
+  }
+
+  return value;
+}
+
 async function bootstrap() {
   const app = await NestFactory.create(CoreModule);
 
@@ -36,7 +44,9 @@ async function bootstrap() {
       resave: false,
       saveUninitialized: false,
       cookie: {
-        domain: config.getOrThrow<string>('SESSION_DOMAIN'),
+        domain: getSessionCookieDomain(
+          config.getOrThrow<string>('SESSION_DOMAIN'),
+        ),
         maxAge: msOrThrow(config.getOrThrow<string>('SESSION_MAX_AGE')),
         httpOnly: parseBooleanOrThrow(
           config.getOrThrow<string>('SESSION_HTTP_ONLY'),
