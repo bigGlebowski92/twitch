@@ -1,7 +1,6 @@
 import {
   BadRequestException,
   Injectable,
-  InternalServerErrorException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -17,6 +16,10 @@ import {
   type StoredSession,
 } from '../../../shared/types/session-metadata.types';
 import { getSessionMetadata } from '../../../shared/utils/session-metadata.util';
+import {
+  destroySession,
+  saveSession,
+} from '../../../shared/utils/session.util';
 import { LoginInput } from './inputs/login.input';
 
 @Injectable()
@@ -102,45 +105,13 @@ export class SessionService {
 
     const metadata = getSessionMetadata(request, userAgent);
 
-    request.session.userId = user.id;
-    request.session.createdAt = new Date();
-    request.session.metadata = metadata;
-
-    await this.saveSession(request);
+    await saveSession(request, user, metadata);
 
     return user;
   }
 
   public async logout(request: Request): Promise<void> {
-    await this.destroySession(request);
-
-    request.res?.clearCookie(
-      this.configService.getOrThrow<string>('SESSION_NAME'),
-    );
-  }
-
-  private saveSession(request: Request): Promise<void> {
-    return new Promise((resolve, reject) => {
-      request.session.save((err) => {
-        if (err) {
-          reject(new InternalServerErrorException('Failed to save session'));
-          return;
-        }
-        resolve();
-      });
-    });
-  }
-
-  private destroySession(request: Request): Promise<void> {
-    return new Promise((resolve, reject) => {
-      request.session.destroy((err) => {
-        if (err) {
-          reject(new InternalServerErrorException('Failed to destroy session'));
-          return;
-        }
-        resolve();
-      });
-    });
+    await destroySession(request, this.configService);
   }
 
   public clearSession(request: Request): void {

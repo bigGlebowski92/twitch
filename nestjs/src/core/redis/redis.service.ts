@@ -2,6 +2,7 @@ import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { RedisStore } from 'connect-redis';
 import { createClient, RedisClientType } from 'redis';
+import { getRedisUrl } from './get-redis-url.util';
 
 @Injectable()
 export class RedisService implements OnModuleInit, OnModuleDestroy {
@@ -9,7 +10,7 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
 
   public constructor(private readonly configService: ConfigService) {
     this.client = createClient({
-      url: this.configService.getOrThrow<string>('REDIS_URL'),
+      url: getRedisUrl(this.configService),
     });
   }
 

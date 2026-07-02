@@ -21,6 +21,8 @@ model User {
   displayName String   @map("display_name")
   avatar      String   @default("https://static-cdn.jtvnw.net/jtv_user_pictures/default-profile_image-300x300.png")
   bio         String
+  isVerified  Boolean  @default(false) @map("is_verified")
+  isEmailVerified Boolean @default(false) @map("is_email_verified")
   tokens      Token[]
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")

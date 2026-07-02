@@ -6,11 +6,15 @@ import {
 import { User } from '@prisma/generated/browser';
 import { hash } from 'argon2';
 import { PrismaService } from '../../../core/prisma/prisma.service';
+import { VerificationService } from '../verification/verification.service';
 import { CreateUserInput } from './inputs/create-user.input';
 
 @Injectable()
 export class AccountService {
-  public constructor(private readonly prismaService: PrismaService) {}
+  public constructor(
+    private readonly prismaService: PrismaService,
+    private readonly verificationService: VerificationService,
+  ) {}
 
   public async me(id: string): Promise<User> {
     const user = await this.prismaService.user.findUnique({
@@ -51,6 +55,7 @@ export class AccountService {
         bio: '',
       },
     });
+    await this.verificationService.sendVerificationEmail(user);
     return user;
   }
 }
