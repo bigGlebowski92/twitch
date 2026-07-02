@@ -12,6 +12,7 @@ import { PrismaService } from '../../../core/prisma/prisma.service';
 import { RedisService } from '../../../core/redis/redis.service';
 import {
   getSessionIdFromKey,
+  normalizeStoredSession,
   parseStoredSession,
   type StoredSession,
 } from '../../../shared/types/session-metadata.types';
@@ -47,10 +48,12 @@ export class SessionService {
         continue;
       }
 
-      userSessions.push({
-        ...session,
-        id: getSessionIdFromKey(key, prefix),
-      });
+      userSessions.push(
+        normalizeStoredSession({
+          ...session,
+          id: getSessionIdFromKey(key, prefix),
+        }),
+      );
     }
 
     userSessions.sort((a, b) => {
@@ -59,29 +62,23 @@ export class SessionService {
       return bTime - aTime;
     });
 
-    return userSessions.filter((session) => session.id === req.session.id);
+    return userSessions;
   }
 
-  public async findCurrent(req: Request): Promise<StoredSession | null> {
+  public findCurrentSession(req: Request): StoredSession {
     const sessionId = req.session.id;
-    if (!sessionId) {
+    const userId = req.session.userId;
+
+    if (!sessionId || !userId) {
       throw new UnauthorizedException('Session not found');
     }
 
-    const prefix = this.configService.getOrThrow<string>('SESSION_FOLDER');
-    const sessionData = await this.redisService.getValue(
-      `${prefix}${sessionId}`,
-    );
-
-    if (!sessionData) {
-      return null;
-    }
-
-    const session = parseStoredSession(sessionData);
-    return {
-      ...session,
+    return normalizeStoredSession({
       id: sessionId,
-    };
+      userId,
+      createdAt: req.session.createdAt,
+      metadata: req.session.metadata,
+    });
   }
 
   public async login(

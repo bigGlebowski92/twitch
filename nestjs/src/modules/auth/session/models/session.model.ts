@@ -14,10 +14,10 @@ export class LocationModel implements LocationInfo {
   @Field(() => String)
   public city: string;
 
-  @Field(() => String)
+  @Field(() => Number)
   public latitude: number;
 
-  @Field(() => String)
+  @Field(() => Number)
   public longitude: number;
 }
 

@@ -22,8 +22,8 @@ type DeviceModel {
 type LocationModel {
   city: String!
   country: String!
-  latitude: String!
-  longitude: String!
+  latitude: Float!
+  longitude: Float!
 }
 
 input LoginInput {
@@ -41,7 +41,7 @@ type Mutation {
 
 type Query {
   findByUser: [SessionModel!]!
-  findCurrent: SessionModel!
+  findCurrentSession: SessionModel!
   me: UserModel!
 }
 

@@ -19,9 +19,9 @@ export class SessionResolver {
   }
 
   @Authorization()
-  @Query(() => SessionModel, { name: 'findCurrent' })
-  public async findCurrent(@Context() { req }: GraphQLContext) {
-    return this.sessionService.findCurrent(req);
+  @Query(() => SessionModel, { name: 'findCurrentSession' })
+  public findCurrentSession(@Context() { req }: GraphQLContext) {
+    return this.sessionService.findCurrentSession(req);
   }
 
   @Mutation(() => UserModel, { name: 'login' })
@@ -40,7 +40,6 @@ export class SessionResolver {
     return true;
   }
 
-  @Authorization()
   @Mutation(() => Boolean, { name: 'clearSession' })
   public clearSession(@Context() { req }: GraphQLContext) {
     return this.sessionService.clearSession(req);
@@ -48,10 +47,11 @@ export class SessionResolver {
 
   @Authorization()
   @Mutation(() => Boolean, { name: 'removeSession' })
-  public removeSession(
+  public async removeSession(
     @Context() { req }: GraphQLContext,
     @Args('id') id: string,
-  ) {
-    return this.sessionService.removeSession(req, id);
+  ): Promise<boolean> {
+    await this.sessionService.removeSession(req, id);
+    return true;
   }
 }

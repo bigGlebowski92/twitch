@@ -39,6 +39,16 @@ function resolveCountryName(countryCode?: string): string {
   return getName(countryCode, 'en') ?? countryCode;
 }
 
+function resolveBrowserName(
+  client: ReturnType<DeviceDetector['parse']>['client'],
+): string {
+  if (!client || !('name' in client) || !client.name) {
+    return 'Undefined';
+  }
+
+  return client.name;
+}
+
 export function getSessionMetadata(
   req: Request,
   userAgent: string,
@@ -56,7 +66,7 @@ export function getSessionMetadata(
       latitude: location?.ll?.[1] ?? 0,
     },
     device: {
-      browser: device.client?.type ?? 'Undefined',
+      browser: resolveBrowserName(device.client),
       os: device.os?.name ?? 'Undefined',
       type: device.device?.type ?? 'Undefined',
     },
