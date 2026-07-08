@@ -20,6 +20,7 @@ import {
   destroySession,
   saveSession,
 } from '../../../shared/utils/session.util';
+import { VerificationService } from '../verification/verification.service';
 import { LoginInput } from './inputs/login.input';
 
 @Injectable()
@@ -28,6 +29,7 @@ export class SessionService {
     private readonly prismaService: PrismaService,
     private readonly configService: ConfigService,
     private readonly redisService: RedisService,
+    private readonly verificationService: VerificationService,
   ) {}
 
   public async findByUser(req: Request): Promise<StoredSession[]> {
@@ -101,6 +103,11 @@ export class SessionService {
     const isPasswordValid = await verify(user.password, password);
     if (!isPasswordValid) {
       throw new BadRequestException('Invalid login or password');
+    }
+
+    if (!user.isEmailVerified) {
+      await this.verificationService.sendVerificationEmail(user);
+      throw new BadRequestException('Email not verified');
     }
 
     const metadata = getSessionMetadata(request, userAgent);

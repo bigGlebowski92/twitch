@@ -26,6 +26,7 @@
       "@/*": ["./src/*"],
       "@prisma/generated": ["./generated/prisma"],
       "@prisma/generated/*": ["./generated/prisma/*"]
-    }
+    },
+    "jsx": "react"
   }
 }

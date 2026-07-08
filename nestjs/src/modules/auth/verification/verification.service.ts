@@ -5,11 +5,15 @@ import { generateToken } from '@/shared/utils/generate-token.util';
 import { PrismaService } from '../../../core/prisma/prisma.service';
 import { getSessionMetadata } from '../../../shared/utils/session-metadata.util';
 import { saveSession } from '../../../shared/utils/session.util';
+import { MailService } from '../../libs/mail/mail.service';
 import { VerificationInput } from './input/verification.input';
 
 @Injectable()
 export class VerificationService {
-  public constructor(private readonly prismaService: PrismaService) {}
+  public constructor(
+    private readonly prismaService: PrismaService,
+    private readonly mailService: MailService,
+  ) {}
 
   public async verify(
     request: Request,
@@ -56,12 +60,21 @@ export class VerificationService {
   }
 
   public async sendVerificationEmail(user: User) {
-    await generateToken(
+    const token = await generateToken(
       this.prismaService,
       user,
       TokenType.EMAIL_VERIFICATION,
       true,
     );
+
+    try {
+      await this.mailService.sendVerificationToken(user.email, token);
+    } catch {
+      throw new BadRequestException(
+        'Verification email could not be sent. Check mail configuration or try again later.',
+      );
+    }
+
     return true;
   }
 }
