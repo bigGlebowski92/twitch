@@ -12,7 +12,7 @@ export async function generateToken(
   prismaService: PrismaService,
   user: User,
   type: TokenType,
-  isUUID: boolean,
+  isUUID: boolean = true,
 ): Promise<string> {
   const token = isUUID ? randomUUID() : randomBytes(16).toString('hex');
   const expiresIn = getTokenExpiryUnixSeconds();
