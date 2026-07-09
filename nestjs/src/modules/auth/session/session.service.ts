@@ -7,6 +7,7 @@ import { ConfigService } from '@nestjs/config';
 import { User } from '@prisma/generated/browser';
 import { verify } from 'argon2';
 import type { Request } from 'express';
+import { Secret, TOTP } from 'otpauth';
 import { PrismaService } from '../../../core/prisma/prisma.service';
 import { RedisService } from '../../../core/redis/redis.service';
 import {
@@ -91,7 +92,7 @@ export class SessionService {
     input: LoginInput,
     userAgent: string,
   ): Promise<User> {
-    const { login, password } = input;
+    const { login, password, pin } = input;
     const user = await this.prismaService.user.findFirst({
       where: {
         OR: [{ username: { equals: login } }, { email: { equals: login } }],
@@ -110,6 +111,27 @@ export class SessionService {
       throw new BadRequestException('Email not verified');
     }
 
+    if (user.isTotpEnabled) {
+      if (!pin) {
+        throw new BadRequestException('TOTP required');
+      }
+
+      if (!user.totpSecret) {
+        throw new BadRequestException('TOTP is not configured');
+      }
+
+      const totp = new TOTP({
+        issuer: 'Twitch',
+        label: user.email,
+        secret: Secret.fromBase32(user.totpSecret),
+        digits: 6,
+        algorithm: 'SHA1',
+      });
+      const delta = totp.validate({ token: pin });
+      if (delta === null) {
+        throw new BadRequestException('Invalid TOTP token');
+      }
+    }
     const metadata = getSessionMetadata(request, userAgent);
 
     await saveSession(request, user, metadata);
