@@ -1,7 +1,7 @@
 import { Args, Context, Mutation, Resolver } from '@nestjs/graphql';
-import { NewPasswordInput } from '@/modules/libs/mail/templates/new-password.input';
 import { UserAgent } from '@/shared/decorators/user-agent.decorator';
 import type { GraphQLContext } from '@/shared/types/graphql-context.types';
+import { NewPasswordInput } from './inputs/new-password.input';
 import { ResetPasswordInput } from './inputs/reset-password.input';
 import { PasswordRecoveryService } from './password-recovery.service';
 

@@ -8,9 +8,9 @@ import { hash } from 'argon2';
 import type { Request } from 'express';
 import { PrismaService } from '@/core/prisma/prisma.service';
 import { MailService } from '@/modules/libs/mail/mail.service';
-import { NewPasswordInput } from '@/modules/libs/mail/templates/new-password.input';
 import { generateToken } from '@/shared/utils/generate-token.util';
 import { getSessionMetadata } from '@/shared/utils/session-metadata.util';
+import { NewPasswordInput } from './inputs/new-password.input';
 import { ResetPasswordInput } from './inputs/reset-password.input';
 
 @Injectable()
