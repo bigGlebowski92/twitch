@@ -10,6 +10,7 @@ import { AccountModule } from '../modules/auth/account/account.module';
 import { SessionModule } from '../modules/auth/session/session.module';
 import { VerificationModule } from '../modules/auth/verification/verification.module';
 import { MailModule } from '../modules/libs/mail/mail.module';
+import { StorageModule } from '../modules/libs/storage/storage.module';
 import { IS_DEV_ENV } from '../shared/utils/is-dev.util';
 import { getGraphQLConfig } from './config/graphql.config';
 import { PrismaModule } from './prisma/prisma.module';
@@ -30,6 +31,7 @@ import { RedisModule } from './redis/redis.module';
     PrismaModule,
     RedisModule,
     MailModule,
+    StorageModule,
     AccountModule,
     SessionModule,
     VerificationModule,

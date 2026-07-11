@@ -91,4 +91,11 @@ export class AccountService {
       data: { password: await hash(newPassword) },
     });
   }
+
+  public async updateAvatar(userId: string, avatarUrl: string): Promise<User> {
+    return this.prismaService.user.update({
+      where: { id: userId },
+      data: { avatar: avatarUrl },
+    });
+  }
 }

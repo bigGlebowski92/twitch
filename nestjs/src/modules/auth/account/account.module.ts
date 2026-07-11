@@ -7,5 +7,6 @@ import { AccountService } from './account.service';
 @Module({
   imports: [VerificationModule],
   providers: [AccountResolver, AccountService, GraphQLAuthGuard],
+  exports: [AccountService],
 })
 export class AccountModule {}
