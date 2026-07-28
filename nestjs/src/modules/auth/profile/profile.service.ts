@@ -230,6 +230,9 @@ export class ProfileService {
         title: link.title,
         url: link.url,
         position: link.position,
+        userId: link.userId,
+        createdAt: link.createdAt,
+        updatedAt: link.updatedAt,
       })),
       createdAt: user.createdAt,
     };

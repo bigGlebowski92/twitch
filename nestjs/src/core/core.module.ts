@@ -7,6 +7,7 @@ import { PasswordRecoveryModule } from '@/modules/auth/password-recovery/passwor
 import { ProfileModule } from '@/modules/auth/profile/profile.module';
 import { TotpModule } from '@/modules/auth/totp/totp.module';
 import { CronModule } from '@/modules/cron/cron.module';
+import { StreamModule } from '@/modules/stream/stream.module';
 import { AccountModule } from '../modules/auth/account/account.module';
 import { SessionModule } from '../modules/auth/session/session.module';
 import { VerificationModule } from '../modules/auth/verification/verification.module';
@@ -41,6 +42,7 @@ import { RedisModule } from './redis/redis.module';
     DeactivateModule,
     CronModule,
     ProfileModule,
+    StreamModule,
   ],
 })
 export class CoreModule {}

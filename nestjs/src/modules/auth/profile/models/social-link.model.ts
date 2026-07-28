@@ -14,8 +14,8 @@ export class SocialLinkModel {
   @Field(() => Int)
   public position!: number;
 
-  @Field(() => String)
-  public userId!: string;
+  @Field(() => String, { nullable: true })
+  public userId!: string | null;
 
   @Field(() => Date)
   public createdAt!: Date;
