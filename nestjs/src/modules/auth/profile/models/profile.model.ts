@@ -1,4 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
+import { SocialLinkModel } from './social-link.model';
 
 @ObjectType()
 export class ProfileModel {
@@ -19,6 +20,9 @@ export class ProfileModel {
 
   @Field(() => Boolean)
   public isVerified!: boolean;
+
+  @Field(() => [SocialLinkModel])
+  public socialLinks!: SocialLinkModel[];
 
   @Field(() => Date)
   public createdAt!: Date;
