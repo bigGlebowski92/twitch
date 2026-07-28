@@ -8,8 +8,8 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import type { Request } from 'express';
 import { User } from '@prisma/generated/browser';
+import type { Request } from 'express';
 import { AccountService } from '@/modules/auth/account/account.service';
 import { HttpSessionAuthGuard } from '@/shared/guards/http-session-auth.guard';
 import { StorageService } from './storage.service';

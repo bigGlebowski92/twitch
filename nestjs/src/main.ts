@@ -8,6 +8,7 @@ import {
   buildCookieParser,
   buildSessionMiddleware,
 } from './shared/utils/express-middleware.util';
+import { buildGraphqlUploadMiddleware } from './shared/utils/graphql-upload.util';
 import { msOrThrow } from './shared/utils/ms';
 import { parseBooleanOrThrow } from './shared/utils/parse-boolean';
 
@@ -34,6 +35,11 @@ async function bootstrap() {
   const redis = app.get<RedisService>(RedisService);
 
   app.use(buildCookieParser(config.getOrThrow<string>('COOKIE_SECRET')));
+
+  app.use(
+    config.getOrThrow<string>('GRAPHQL_PREFIX'),
+    buildGraphqlUploadMiddleware({ maxFileSize: 5_000_000, maxFiles: 1 }),
+  );
 
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
 

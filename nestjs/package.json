@@ -52,6 +52,7 @@
     "express-session": "^1.19.0",
     "geoip-lite": "^2.0.3",
     "graphql": "^17.0.1",
+    "graphql-upload": "^17.0.0",
     "hi-base32": "^0.5.1",
     "i18n-iso-countries": "^7.14.0",
     "nodemailer": "^9.0.3",
@@ -64,7 +65,8 @@
     "react-email": "^6.6.8",
     "redis": "^6.0.1",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "sharp": "^0.35.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
@@ -76,6 +78,7 @@
     "@types/express": "^5.0.0",
     "@types/express-session": "^1.19.0",
     "@types/geoip-lite": "^1.4.4",
+    "@types/graphql-upload": "^17.0.0",
     "@types/jest": "^30.0.0",
     "@types/multer": "^2.2.0",
     "@types/node": "^24.0.0",

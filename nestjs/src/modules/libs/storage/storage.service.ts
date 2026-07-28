@@ -1,15 +1,12 @@
 import {
-  BadRequestException,
-  Injectable,
-  OnModuleInit,
-} from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import {
   CreateBucketCommand,
+  DeleteObjectCommand,
   HeadBucketCommand,
   PutObjectCommand,
   S3Client,
 } from '@aws-sdk/client-s3';
+import { BadRequestException, Injectable, OnModuleInit } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 const ALLOWED_MIME_TYPES = new Set([
   'image/jpeg',
@@ -82,6 +79,21 @@ export class StorageService implements OnModuleInit {
     );
 
     return `${this.publicUrl}/${key}`;
+  }
+
+  public async delete(fileUrl: string): Promise<void> {
+    if (!fileUrl.startsWith(`${this.publicUrl}/`)) {
+      return;
+    }
+
+    const key = fileUrl.slice(this.publicUrl.length + 1);
+
+    await this.s3.send(
+      new DeleteObjectCommand({
+        Bucket: this.bucket,
+        Key: key,
+      }),
+    );
   }
 
   private getExtension(mimeType: string): string {
