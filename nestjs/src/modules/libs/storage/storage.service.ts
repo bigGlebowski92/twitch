@@ -81,6 +81,36 @@ export class StorageService implements OnModuleInit {
     return `${this.publicUrl}/${key}`;
   }
 
+  public async uploadThumbnail(
+    streamId: string,
+    buffer: Buffer,
+    mimeType: string,
+  ): Promise<string> {
+    if (!ALLOWED_MIME_TYPES.has(mimeType)) {
+      throw new BadRequestException(
+        'Invalid file type. Allowed: JPEG, PNG, WebP, GIF',
+      );
+    }
+
+    if (buffer.length > MAX_FILE_SIZE) {
+      throw new BadRequestException('File size exceeds 5 MB limit');
+    }
+
+    const extension = this.getExtension(mimeType);
+    const key = `thumbnails/${streamId}.${extension}`;
+
+    await this.s3.send(
+      new PutObjectCommand({
+        Bucket: this.bucket,
+        Key: key,
+        Body: buffer,
+        ContentType: mimeType,
+      }),
+    );
+
+    return `${this.publicUrl}/${key}`;
+  }
+
   public async delete(fileUrl: string): Promise<void> {
     if (!fileUrl.startsWith(`${this.publicUrl}/`)) {
       return;
