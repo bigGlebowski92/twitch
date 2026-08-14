@@ -2,6 +2,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import 'dotenv/config';
+import { raw } from 'express';
 import { CoreModule } from './core/core.module';
 import { RedisService } from './core/redis/redis.service';
 import {
@@ -29,10 +30,15 @@ function getSessionCookieDomain(value: string): string | undefined {
 }
 
 async function bootstrap() {
-  const app = await NestFactory.create(CoreModule);
+  const app = await NestFactory.create(CoreModule, { rawBody: true });
 
   const config = app.get<ConfigService>(ConfigService);
   const redis = app.get<RedisService>(RedisService);
+
+  // LiveKit sends `Content-Type: application/webhook+json`, which the default
+  // JSON body-parser ignores, so `rawBody` alone can't capture it here.
+  // Signature verification needs the exact raw bytes, hence this dedicated parser.
+  app.use('/webhook/livekit', raw({ type: '*/*' }));
 
   app.use(buildCookieParser(config.getOrThrow<string>('COOKIE_SECRET')));
 

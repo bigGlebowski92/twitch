@@ -29,7 +29,7 @@ export class LivekitService {
       this.options.apiSecret,
     );
     this.webhookReceiver = new WebhookReceiver(
-      this.options.apiUrl,
+      this.options.apiKey,
       this.options.apiSecret,
     );
   }
