@@ -8,6 +8,7 @@ import { ProfileModule } from '@/modules/auth/profile/profile.module';
 import { TotpModule } from '@/modules/auth/totp/totp.module';
 import { CronModule } from '@/modules/cron/cron.module';
 import { LivekitModule } from '@/modules/libs/livekit/livekit.module';
+import { IngressModule } from '@/modules/stream/ingress/ingress.module';
 import { StreamModule } from '@/modules/stream/stream.module';
 import { AccountModule } from '../modules/auth/account/account.module';
 import { SessionModule } from '../modules/auth/session/session.module';
@@ -50,6 +51,7 @@ import { RedisModule } from './redis/redis.module';
     CronModule,
     ProfileModule,
     StreamModule,
+    IngressModule,
   ],
 })
 export class CoreModule {}

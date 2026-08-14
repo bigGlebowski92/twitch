@@ -16,6 +16,10 @@ input ChangePasswordInput {
   oldPassword: String!
 }
 
+input ChangeStreamInfoInput {
+  title: String!
+}
+
 input CreateUserInput {
   email: String!
   password: String!
@@ -48,6 +52,18 @@ input EnableTotpInput {
   secret: String!
 }
 
+input FiltersInput {
+  searchTerm: String
+  skip: Int
+  take: Int
+}
+
+enum IngressInput {
+  RTMP_INPUT
+  URL_INPUT
+  WHIP_INPUT
+}
+
 type LocationModel {
   city: String!
   country: String!
@@ -62,9 +78,14 @@ input LoginInput {
 }
 
 type Mutation {
+  addSocialLink(input: SocialLinkInput!): Boolean!
+  changeAvatar(avatar: Upload!): UserModel!
   changeEmail(input: ChangeEmailInput!): UserModel!
   changePassword(input: ChangePasswordInput!): UserModel!
+  changeStreamInfo(input: ChangeStreamInfoInput!): Boolean!
+  changeThumbnail(thumbnail: Upload!): StreamModel!
   clearSession: Boolean!
+  createIngress(ingressType: IngressInput!): Boolean!
   createUser(input: CreateUserInput!): UserModel!
   deactivate(input: DeactivateInput!): AuthModel!
   deactivateAccount(input: DeactivateAccountInput!): AuthModel!
@@ -73,9 +94,15 @@ type Mutation {
   generateTotp: TotpModel!
   login(data: LoginInput!): AuthModel!
   logout: Boolean!
+  removeAvatar: UserModel!
   removeSession(id: String!): Boolean!
+  removeSocialLink(id: String!): Boolean!
+  removeThumbnail: StreamModel!
+  reorderSocialLinks(list: [SocialLinkOrderInput!]!): Boolean!
   resetPassword(data: ResetPasswordInput!): Boolean!
   setNewPassword(data: NewPasswordInput!): Boolean!
+  updateProfile(input: UpdateProfileInput!): UserModel!
+  updateSocialLink(id: String!, input: SocialLinkInput!): Boolean!
   verify(input: VerificationInput!): UserModel!
 }
 
@@ -85,10 +112,25 @@ input NewPasswordInput {
   token: String!
 }
 
+type ProfileModel {
+  avatar: String
+  bio: String
+  createdAt: DateTime!
+  displayName: String!
+  id: String!
+  isVerified: Boolean!
+  socialLinks: [SocialLinkModel!]!
+  username: String!
+}
+
 type Query {
+  findAllStreams(filters: FiltersInput): [StreamModel!]!
   findByUser: [SessionModel!]!
   findCurrentSession: SessionModel!
+  findRandomStreams: [StreamModel!]!
+  findSocialLinks: [SocialLinkModel!]!
   me: UserModel!
+  profile(username: String!): ProfileModel!
 }
 
 input ResetPasswordInput {
@@ -108,10 +150,53 @@ type SessionModel {
   userId: String!
 }
 
+input SocialLinkInput {
+  title: String!
+  url: String!
+}
+
+type SocialLinkModel {
+  createdAt: DateTime!
+  id: String!
+  position: Int!
+  title: String!
+  updatedAt: DateTime!
+  url: String!
+  userId: String
+}
+
+input SocialLinkOrderInput {
+  id: String!
+  position: Float!
+}
+
+type StreamModel {
+  createdAt: DateTime!
+  id: String!
+  ingressId: String
+  isLive: Boolean!
+  serverUrl: String
+  streamKey: String
+  thumbnailUrl: String
+  title: String!
+  updatedAt: DateTime!
+  user: UserModel
+  userId: String
+}
+
 type TotpModel {
   qrcodeUrl: String!
   secret: String!
 }
+
+input UpdateProfileInput {
+  bio: String
+  displayName: String
+  username: String
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
 
 type UserModel {
   avatar: String
@@ -126,6 +211,8 @@ type UserModel {
   isTotpEnabled: Boolean!
   isVerified: Boolean!
   password: String!
+  socialLinks: [SocialLinkModel!]
+  stream: StreamModel
   totpSecret: String
   updatedAt: DateTime!
   username: String!
