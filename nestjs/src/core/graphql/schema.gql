@@ -7,6 +7,17 @@ type AuthModel {
   user: UserModel
 }
 
+type CategoryModel {
+  createdAt: DateTime!
+  description: String
+  id: ID!
+  slug: String!
+  streams: [StreamModel!]
+  thumbnailUrl: String
+  title: String!
+  updatedAt: DateTime!
+}
+
 input ChangeEmailInput {
   email: String!
 }
@@ -17,6 +28,7 @@ input ChangePasswordInput {
 }
 
 input ChangeStreamInfoInput {
+  categoryId: ID!
   title: String!
 }
 
@@ -58,6 +70,15 @@ input FiltersInput {
   take: Int
 }
 
+input GenerateStreamTokenInput {
+  channelId: String!
+  userId: String!
+}
+
+type GenerateStreamTokenModel {
+  token: String!
+}
+
 enum IngressInput {
   RTMP_INPUT
   URL_INPUT
@@ -91,6 +112,7 @@ type Mutation {
   deactivateAccount(input: DeactivateAccountInput!): AuthModel!
   disableTotp: Boolean!
   enableTotp(input: EnableTotpInput!): Boolean!
+  generateStreamToken(input: GenerateStreamTokenInput!): GenerateStreamTokenModel!
   generateTotp: TotpModel!
   login(data: LoginInput!): AuthModel!
   logout: Boolean!
@@ -124,9 +146,12 @@ type ProfileModel {
 }
 
 type Query {
+  findAllCategories: [CategoryModel!]!
   findAllStreams(filters: FiltersInput): [StreamModel!]!
   findByUser: [SessionModel!]!
+  findCategoryBySlug(slug: String!): CategoryModel!
   findCurrentSession: SessionModel!
+  findRandomCategories: [CategoryModel!]!
   findRandomStreams: [StreamModel!]!
   findSocialLinks: [SocialLinkModel!]!
   me: UserModel!
@@ -171,6 +196,8 @@ input SocialLinkOrderInput {
 }
 
 type StreamModel {
+  category: CategoryModel
+  categoryId: String
   createdAt: DateTime!
   id: String!
   ingressId: String

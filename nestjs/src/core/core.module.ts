@@ -6,6 +6,7 @@ import { DeactivateModule } from '@/modules/auth/deactivate/deactivate.module';
 import { PasswordRecoveryModule } from '@/modules/auth/password-recovery/password-recovery.module';
 import { ProfileModule } from '@/modules/auth/profile/profile.module';
 import { TotpModule } from '@/modules/auth/totp/totp.module';
+import { CategoryModule } from '@/modules/category/category.module';
 import { CronModule } from '@/modules/cron/cron.module';
 import { LivekitModule } from '@/modules/libs/livekit/livekit.module';
 import { IngressModule } from '@/modules/stream/ingress/ingress.module';
@@ -54,6 +55,7 @@ import { RedisModule } from './redis/redis.module';
     StreamModule,
     IngressModule,
     WebhookModule,
+    CategoryModule,
   ],
 })
 export class CoreModule {}

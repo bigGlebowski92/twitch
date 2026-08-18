@@ -6,6 +6,7 @@ import type Upload from 'graphql-upload/Upload.mjs';
 import { AccessToken } from 'livekit-server-sdk';
 import sharp from 'sharp';
 import { PrismaService } from '@/core/prisma/prisma.service';
+import { CategoryService } from '@/modules/category/category.service';
 import { readStreamToBuffer } from '@/shared/utils/read-stream.util';
 import { StorageService } from '../libs/storage/storage.service';
 import { ChangeStreamInfoInput } from './inputs/change-stream-info.input';
@@ -18,6 +19,7 @@ export class StreamService {
     private readonly prismaService: PrismaService,
     private readonly configService: ConfigService,
     private readonly storageService: StorageService,
+    private readonly categoryService: CategoryService,
   ) {}
 
   public async findAllStreams(input: FiltersInput = {}) {
@@ -38,6 +40,7 @@ export class StreamService {
       },
       include: {
         user: true,
+        category: true,
       },
       orderBy: {
         createdAt: 'desc',
@@ -66,6 +69,7 @@ export class StreamService {
       where,
       include: {
         user: true,
+        category: true,
       },
       take,
       skip,
@@ -76,11 +80,20 @@ export class StreamService {
     input: ChangeStreamInfoInput,
     user: User,
   ): Promise<boolean> {
-    const { title } = input;
+    const { title, categoryId } = input;
+
+    await this.categoryService.findCategoryById(categoryId);
 
     await this.prismaService.stream.update({
       where: { userId: user.id },
-      data: { title },
+      data: {
+        title,
+        category: {
+          connect: {
+            id: categoryId,
+          },
+        },
+      },
     });
     return true;
   }

@@ -20,7 +20,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "db:push": "prisma db push",
     "db:generate": "prisma generate",
-    "db:studio": "prisma studio"
+    "db:studio": "prisma studio",
+    "db:seed": "nest build && node dist/src/core/prisma/prisma-seed.js"
   },
   "dependencies": {
     "@apollo/server": "^5.5.1",
