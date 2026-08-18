@@ -32,6 +32,17 @@ input ChangeStreamInfoInput {
   title: String!
 }
 
+type ChatMessageModel {
+  content: String!
+  createdAt: DateTime!
+  id: String!
+  stream: StreamModel
+  streamId: String!
+  updatedAt: DateTime!
+  user: UserModel
+  userId: String!
+}
+
 input CreateUserInput {
   email: String!
   password: String!
@@ -198,9 +209,13 @@ input SocialLinkOrderInput {
 type StreamModel {
   category: CategoryModel
   categoryId: String
+  chatMessages: [ChatMessageModel!]
   createdAt: DateTime!
   id: String!
   ingressId: String
+  isChatEnabled: Boolean!
+  isChatFollowersOnly: Boolean!
+  isChatPremiumFollowersOnly: Boolean!
   isLive: Boolean!
   serverUrl: String
   streamKey: String
