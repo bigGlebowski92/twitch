@@ -28,6 +28,16 @@ input ChangeEmailInput {
   email: String!
 }
 
+input ChangeNotificationsSettingsInput {
+  siteNotifications: Boolean!
+  telegramNotifications: Boolean!
+}
+
+type ChangeNotificationsSettingsOutput {
+  notificationSettings: NotificationSettingsModel!
+  telegramAuthToken: String
+}
+
 input ChangePasswordInput {
   newPassword: String!
   oldPassword: String!
@@ -130,6 +140,7 @@ type Mutation {
   changeAvatar(avatar: Upload!): UserModel!
   changeChatSettings(input: ChangeChatSettingsInput!): Boolean!
   changeEmail(input: ChangeEmailInput!): UserModel!
+  changeNotificationsSettings(data: ChangeNotificationsSettingsInput!): ChangeNotificationsSettingsOutput!
   changePassword(input: ChangePasswordInput!): UserModel!
   changeStreamInfo(input: ChangeStreamInfoInput!): Boolean!
   changeThumbnail(thumbnail: Upload!): StreamModel!
@@ -165,6 +176,34 @@ input NewPasswordInput {
   token: String!
 }
 
+type NotificationModel {
+  createdAt: DateTime!
+  id: String!
+  isRead: Boolean!
+  message: String!
+  type: NotificationType!
+  updatedAt: DateTime!
+  userId: String
+}
+
+type NotificationSettingsModel {
+  createdAt: DateTime!
+  id: String!
+  siteNotifications: Boolean!
+  telegramNotifications: Boolean!
+  updatedAt: DateTime!
+  user: UserModel
+  userId: String
+}
+
+enum NotificationType {
+  ENABLE_TWO_FACTOR_AUTH
+  NEW_FOLLOWER
+  NEW_SPONSORSHIP
+  STREAM_STARTED
+  VERIFIED_CHANNEL
+}
+
 type ProfileModel {
   avatar: String
   bio: String
@@ -181,13 +220,18 @@ type Query {
   findAllStreams(filters: FiltersInput): [StreamModel!]!
   findByUser: [SessionModel!]!
   findCategoryBySlug(slug: String!): CategoryModel!
+  findChannelByUsername(username: String!): UserModel!
   findChatMessages(streamId: String!): [ChatMessageModel!]!
   findCurrentSession: SessionModel!
+  findFollowersByChannelId(channelId: String!): [UserModel!]!
   findMyFollowers: [FollowModel!]!
   findMyFollowings: [FollowModel!]!
+  findNotificationsByUser: [NotificationModel!]!
   findRandomCategories: [CategoryModel!]!
   findRandomStreams: [StreamModel!]!
+  findRecommendedChannels: [UserModel!]!
   findSocialLinks: [SocialLinkModel!]!
+  findUnreadNotificationsCount: Float!
   me: UserModel!
   profile(username: String!): ProfileModel!
 }
@@ -279,14 +323,19 @@ type UserModel {
   deactivatedAt: DateTime
   displayName: String!
   email: String!
+  followers: [FollowModel!]
+  followings: [FollowModel!]
   id: String!
   isDeactivated: Boolean!
   isEmailVerified: Boolean!
   isTotpEnabled: Boolean!
   isVerified: Boolean!
+  notificationSettings: [NotificationSettingsModel!]
+  notifications: [NotificationModel!]
   password: String!
   socialLinks: [SocialLinkModel!]
   stream: StreamModel
+  telegramId: String
   totpSecret: String
   updatedAt: DateTime!
   username: String!

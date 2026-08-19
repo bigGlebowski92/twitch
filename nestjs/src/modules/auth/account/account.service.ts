@@ -63,6 +63,9 @@ export class AccountService {
             title: `${username}'s Stream`,
           },
         },
+        notificationSettings: {
+          create: {},
+        },
       },
     });
     await this.verificationService.sendVerificationEmail(user);
