@@ -1,6 +1,10 @@
 # dependencies
 **/node_modules/
 
+# this repo uses yarn; npm/pnpm lockfiles would drift from yarn.lock
+**/package-lock.json
+**/pnpm-lock.yaml
+
 # env secrets
 **/.env
 **/.env.local
@@ -10,7 +14,10 @@
 **/dist/
 **/build/
 **/.next/
+**/out/
 **/coverage/
+**/*.tsbuildinfo
+**/next-env.d.ts
 
 # prisma
 **/generated/
