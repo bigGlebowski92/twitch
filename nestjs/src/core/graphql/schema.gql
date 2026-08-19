@@ -18,6 +18,12 @@ type CategoryModel {
   updatedAt: DateTime!
 }
 
+input ChangeChatSettingsInput {
+  isChatEnabled: Boolean!
+  isChatFollowersOnly: Boolean!
+  isChatPremiumFollowersOnly: Boolean!
+}
+
 input ChangeEmailInput {
   email: String!
 }
@@ -81,6 +87,16 @@ input FiltersInput {
   take: Int
 }
 
+type FollowModel {
+  createdAt: DateTime!
+  follower: UserModel!
+  followerId: String!
+  following: UserModel!
+  followingId: String!
+  id: ID!
+  updatedAt: DateTime!
+}
+
 input GenerateStreamTokenInput {
   channelId: String!
   userId: String!
@@ -112,6 +128,7 @@ input LoginInput {
 type Mutation {
   addSocialLink(input: SocialLinkInput!): Boolean!
   changeAvatar(avatar: Upload!): UserModel!
+  changeChatSettings(input: ChangeChatSettingsInput!): Boolean!
   changeEmail(input: ChangeEmailInput!): UserModel!
   changePassword(input: ChangePasswordInput!): UserModel!
   changeStreamInfo(input: ChangeStreamInfoInput!): Boolean!
@@ -123,6 +140,7 @@ type Mutation {
   deactivateAccount(input: DeactivateAccountInput!): AuthModel!
   disableTotp: Boolean!
   enableTotp(input: EnableTotpInput!): Boolean!
+  follow(channelId: String!): Boolean!
   generateStreamToken(input: GenerateStreamTokenInput!): GenerateStreamTokenModel!
   generateTotp: TotpModel!
   login(data: LoginInput!): AuthModel!
@@ -133,7 +151,9 @@ type Mutation {
   removeThumbnail: StreamModel!
   reorderSocialLinks(list: [SocialLinkOrderInput!]!): Boolean!
   resetPassword(data: ResetPasswordInput!): Boolean!
+  sendMessage(input: SendMessageInput!): ChatMessageModel!
   setNewPassword(data: NewPasswordInput!): Boolean!
+  unfollow(channelId: String!): Boolean!
   updateProfile(input: UpdateProfileInput!): UserModel!
   updateSocialLink(id: String!, input: SocialLinkInput!): Boolean!
   verify(input: VerificationInput!): UserModel!
@@ -161,7 +181,10 @@ type Query {
   findAllStreams(filters: FiltersInput): [StreamModel!]!
   findByUser: [SessionModel!]!
   findCategoryBySlug(slug: String!): CategoryModel!
+  findChatMessages(streamId: String!): [ChatMessageModel!]!
   findCurrentSession: SessionModel!
+  findMyFollowers: [FollowModel!]!
+  findMyFollowings: [FollowModel!]!
   findRandomCategories: [CategoryModel!]!
   findRandomStreams: [StreamModel!]!
   findSocialLinks: [SocialLinkModel!]!
@@ -171,6 +194,11 @@ type Query {
 
 input ResetPasswordInput {
   email: String!
+}
+
+input SendMessageInput {
+  streamId: String!
+  text: String!
 }
 
 type SessionMetadataModel {
@@ -224,6 +252,10 @@ type StreamModel {
   updatedAt: DateTime!
   user: UserModel
   userId: String
+}
+
+type Subscription {
+  chatMessageAdded(streamId: String!): ChatMessageModel!
 }
 
 type TotpModel {

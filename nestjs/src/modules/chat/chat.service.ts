@@ -28,10 +28,9 @@ export class ChatService {
 
   public async sendMessage(
     userId: string,
-    streamId: string,
     input: SendMessageInput,
-  ): Promise<boolean> {
-    const { text } = input;
+  ): Promise<ChatMessage> {
+    const { text, streamId } = input;
     const stream = await this.prismaService.stream.findUnique({
       where: {
         id: streamId,
@@ -44,7 +43,7 @@ export class ChatService {
       throw new BadRequestException('Stream is not live');
     }
 
-    await this.prismaService.chatMessage.create({
+    const message = await this.prismaService.chatMessage.create({
       data: {
         content: text,
         user: {
@@ -58,8 +57,11 @@ export class ChatService {
           },
         },
       },
+      include: {
+        user: true,
+      },
     });
-    return true;
+    return message;
   }
 
   public async changeChatSettings(
