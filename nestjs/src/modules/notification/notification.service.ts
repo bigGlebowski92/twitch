@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import type { User } from '@prisma/generated/browser';
 import { TokenType } from '@prisma/generated/browser';
+import type { Notification } from '@prisma/generated/browser';
 import { PrismaService } from '@/core/prisma/prisma.service';
 import { generateToken } from '@/shared/utils/generate-token.util';
 import { ChangeNotificationsSettingsInput } from './inputs/change-notifications-settings.input';
-import type { Notification } from '@prisma/generated/browser';
 
 @Injectable()
 export class NotificationService {
