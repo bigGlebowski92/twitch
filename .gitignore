@@ -22,6 +22,10 @@
 # prisma
 **/generated/
 
+# GraphQL codegen output is committed: it is generated from the checked-in
+# schema.gql, so a fresh clone type-checks without running codegen first.
+!nextjs/graphql/generated/
+
 # logs
 **/*.log
 

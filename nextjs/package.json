@@ -6,10 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "codegen": "graphql-codegen",
+    "codegen:watch": "graphql-codegen --watch"
   },
   "dependencies": {
     "@apollo/client": "^4.2.12",
+    "@apollo/client-integration-nextjs": "^0.14.5",
     "@graphql-codegen/cli": "^7.2.0",
     "@graphql-codegen/typescript": "^6.1.0",
     "@graphql-codegen/typescript-operations": "^6.1.6",
@@ -21,6 +24,7 @@
     "rxjs": "^7.8.2"
   },
   "devDependencies": {
+    "@graphql-codegen/typed-document-node": "^7.1.0",
     "@parcel/watcher": "^2.6.0",
     "@tailwindcss/postcss": "^4",
     "@trivago/prettier-plugin-sort-imports": "^6.0.2",

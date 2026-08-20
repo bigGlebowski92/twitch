@@ -7,6 +7,21 @@
   resolved "https://registry.yarnpkg.com/@alloc/quick-lru/-/quick-lru-5.2.0.tgz#7bf68b20c0a350f936915fcae06f58e32007ce30"
   integrity sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==
 
+"@apollo/client-integration-nextjs@^0.14.5":
+  version "0.14.5"
+  resolved "https://registry.yarnpkg.com/@apollo/client-integration-nextjs/-/client-integration-nextjs-0.14.5.tgz#fe7c0f38910c74d5498a41521b394deb120043e3"
+  integrity sha512-aNh16zlx5rrGtP946jW+O/J7OUyoSC0dxjicFIztiw/S5tQjNqZgqmlgtOXMn7zAR8qV9VOAiKjK5UROaN8iJg==
+  dependencies:
+    "@apollo/client-react-streaming" "0.14.5"
+
+"@apollo/client-react-streaming@0.14.5":
+  version "0.14.5"
+  resolved "https://registry.yarnpkg.com/@apollo/client-react-streaming/-/client-react-streaming-0.14.5.tgz#549b183e0efdcae44b7ccea45b7c2ba3e6b05aea"
+  integrity sha512-ru9FP4g5tULITsWBO6oDSHOflnZaD6lm0AtjT9mkZbbrUkWwoYcSrTKdjNrjfrnppqXS1igv+DpcO+SlXdUGXg==
+  dependencies:
+    "@types/react-dom" "^19.0.0"
+    "@wry/equality" "^0.5.6"
+
 "@apollo/client@^4.2.12":
   version "4.2.12"
   resolved "https://registry.yarnpkg.com/@apollo/client/-/client-4.2.12.tgz#36334834ba0f81e8fcff71bf84c9f90fa23bbe13"
@@ -1507,7 +1522,7 @@
   dependencies:
     undici-types "~6.21.0"
 
-"@types/react-dom@^19":
+"@types/react-dom@^19", "@types/react-dom@^19.0.0":
   version "19.2.4"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-19.2.4.tgz#165ab5e97dfb081847b0f6755060cf40a3f6666b"
   integrity sha512-Bsc+QHgp+P/F02XDzNCY9jnZNCUuLki36KT7VKrTXXLdHf+vHMNZnW1rVu5DNW/rCK+fya3DATySbLM4yhtKUw==
