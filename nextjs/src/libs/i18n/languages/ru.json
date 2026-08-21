@@ -1,0 +1,28 @@
+{
+    "auth": {
+        "register": {
+            "heading": "Зарегистрируйте аккаунт",
+            "backButtonLabel": "Уже есть аккаунт? Войти",
+            "username": "Имя пользователя",
+            "usernamePlaceholder": "johndoe",
+            "email": "Электронная почта",
+            "emailPlaceholder": "john.doe@example.com",
+            "password": "Пароль",
+            "passwordPlaceholder": "********",
+            "submit": "Создать аккаунт",
+            "submitting": "Создание аккаунта...",
+            "successTitle": "Аккаунт создан",
+            "successDescription": "Теперь вы можете войти.",
+            "successAlertDescription": "Подтвердите электронную почту",
+            "errorTitle": "Не удалось создать аккаунт",
+            "validation": {
+                "usernameMin": "Имя пользователя должно содержать минимум 3 символа",
+                "usernameMax": "Имя пользователя должно содержать максимум 20 символов",
+                "usernameRegex": "Имя пользователя может содержать только буквы, цифры и точки",
+                "email": "Введите корректный адрес электронной почты",
+                "passwordMin": "Пароль должен содержать минимум 8 символов",
+                "passwordMax": "Пароль должен содержать максимум 32 символа"
+            }
+        }
+    }
+}

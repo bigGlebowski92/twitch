@@ -1,0 +1,28 @@
+{
+    "auth": {
+        "register": {
+            "heading": "Register your account",
+            "backButtonLabel": "Have an account? Login",
+            "username": "Username",
+            "usernamePlaceholder": "johndoe",
+            "email": "Email",
+            "emailPlaceholder": "john.doe@example.com",
+            "password": "Password",
+            "passwordPlaceholder": "********",
+            "submit": "Create account",
+            "submitting": "Creating account...",
+            "successTitle": "Account created",
+            "successDescription": "You can now log in.",
+            "successAlertDescription": "Confirm Email",
+            "errorTitle": "Failed to create account",
+            "validation": {
+                "usernameMin": "Username must be at least 3 characters",
+                "usernameMax": "Username must be at most 20 characters",
+                "usernameRegex": "Username can only contain letters, numbers, and dots",
+                "email": "Enter a valid email address",
+                "passwordMin": "Password must be at least 8 characters",
+                "passwordMax": "Password must be at most 32 characters"
+            }
+        }
+    }
+}

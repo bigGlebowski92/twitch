@@ -2,8 +2,10 @@ import type { Metadata } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages } from 'next-intl/server'
 import { Geist, Geist_Mono } from 'next/font/google'
-import { ApolloClientProvider } from '@/providers/apollo-client-provider'
-import './styles/globals.css'
+import { ApolloClientProvider } from '@/providers/ApolloClientProvider'
+import { ThemeProvider } from '@/providers/ThemeProvider'
+import { ToastProvider } from '@/providers/ToastProvider'
+import './globals.css'
 
 const geistSans = Geist({
     variable: '--font-geist-sans',
@@ -27,11 +29,18 @@ export default async function RootLayout({ children }: LayoutProps<'/'>) {
         <html
             lang={locale}
             className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+            suppressHydrationWarning
         >
             <body className="flex min-h-full flex-col">
                 <ApolloClientProvider>
                     <NextIntlClientProvider messages={messages}>
-                        {children}
+                        <ThemeProvider
+                            attribute="class"
+                            defaultTheme="dark"
+                            disableTransitionOnChange
+                        >
+                            <ToastProvider>{children}</ToastProvider>
+                        </ThemeProvider>
                     </NextIntlClientProvider>
                 </ApolloClientProvider>
             </body>
