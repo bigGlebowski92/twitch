@@ -29,8 +29,7 @@ export class SessionResolver {
     @Args('data') input: LoginInput,
     @UserAgent() userAgent: string,
   ): Promise<AuthModel> {
-    const user = await this.sessionService.login(req, input, userAgent);
-    return { user, message: 'Login successful' };
+    return this.sessionService.login(req, input, userAgent);
   }
 
   @Authorization()

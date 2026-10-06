@@ -23,6 +23,34 @@
                 "passwordMin": "Password must be at least 8 characters",
                 "passwordMax": "Password must be at most 32 characters"
             }
+        },
+        "login": {
+            "heading": "Log in to your account",
+            "backButtonLabel": "Don't have an account? Register",
+            "login": "Username or email",
+            "loginPlaceholder": "johndoe",
+            "password": "Password",
+            "passwordPlaceholder": "********",
+            "pin": "Authentication code",
+            "pinPlaceholder": "123456",
+            "forgotPassword": "Forgot password?",
+            "submit": "Log in",
+            "submitting": "Logging in...",
+            "successTitle": "Welcome back",
+            "successDescription": "You are now logged in.",
+            "errorTitle": "Failed to log in",
+            "validation": {
+                "loginMin": "Enter your username or email",
+                "passwordMin": "Password must be at least 8 characters",
+                "passwordMax": "Password must be at most 32 characters"
+            }
+        },
+        "verify": {
+            "heading": "Verifying your account",
+            "successTitle": "Email verified",
+            "successDescription": "Your account is ready to use.",
+            "errorTitle": "Verification failed",
+            "errorDescription": "This link is invalid or has expired."
         }
     }
 }

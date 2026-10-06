@@ -91,7 +91,7 @@ export class SessionService {
     request: Request,
     input: LoginInput,
     userAgent: string,
-  ): Promise<User> {
+  ): Promise<{ user?: User; message?: string }> {
     const { login, password, pin } = input;
     const user = await this.prismaService.user.findFirst({
       where: {
@@ -113,7 +113,7 @@ export class SessionService {
 
     if (user.isTotpEnabled) {
       if (!pin) {
-        throw new BadRequestException('TOTP required');
+        return { message: 'TOTP required' };
       }
 
       if (!user.totpSecret) {
@@ -136,7 +136,7 @@ export class SessionService {
 
     await saveSession(request, user, metadata);
 
-    return user;
+    return { user };
   }
 
   public async logout(request: Request): Promise<void> {

@@ -23,6 +23,34 @@
                 "passwordMin": "Пароль должен содержать минимум 8 символов",
                 "passwordMax": "Пароль должен содержать максимум 32 символа"
             }
+        },
+        "login": {
+            "heading": "Войдите в аккаунт",
+            "backButtonLabel": "Нет аккаунта? Зарегистрироваться",
+            "login": "Имя пользователя или почта",
+            "loginPlaceholder": "johndoe",
+            "password": "Пароль",
+            "passwordPlaceholder": "********",
+            "pin": "Код подтверждения",
+            "pinPlaceholder": "123456",
+            "forgotPassword": "Забыли пароль?",
+            "submit": "Войти",
+            "submitting": "Вход...",
+            "successTitle": "С возвращением",
+            "successDescription": "Вы вошли в аккаунт.",
+            "errorTitle": "Не удалось войти",
+            "validation": {
+                "loginMin": "Введите имя пользователя или почту",
+                "passwordMin": "Пароль должен содержать минимум 8 символов",
+                "passwordMax": "Пароль должен содержать максимум 32 символа"
+            }
+        },
+        "verify": {
+            "heading": "Подтверждение аккаунта",
+            "successTitle": "Почта подтверждена",
+            "successDescription": "Аккаунт готов к использованию.",
+            "errorTitle": "Не удалось подтвердить",
+            "errorDescription": "Ссылка недействительна или срок её действия истёк."
         }
     }
 }

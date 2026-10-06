@@ -20,7 +20,7 @@ import { useCreateUserMutation } from '@/features/auth/hooks/use-create-user'
 import {
     createAccountSchema,
     type CreateAccountValues,
-} from '@/features/auth/schemas/create-account.schema'
+} from '@/features/auth/schemas/auth/create-account.schema'
 
 export function CreateAccountForm() {
     const t = useTranslations('auth.register')
