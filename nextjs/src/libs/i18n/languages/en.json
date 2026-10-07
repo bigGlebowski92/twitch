@@ -1,4 +1,7 @@
 {
+    "Home": {
+        "title": "Home"
+    },
     "auth": {
         "register": {
             "heading": "Register your account",
@@ -43,6 +46,38 @@
                 "loginMin": "Enter your username or email",
                 "passwordMin": "Password must be at least 8 characters",
                 "passwordMax": "Password must be at most 32 characters"
+            }
+        },
+        "recovery": {
+            "heading": "Reset your password",
+            "backButtonLabel": "Back to login",
+            "email": "Email",
+            "emailPlaceholder": "john.doe@example.com",
+            "submit": "Send reset link",
+            "submitting": "Sending...",
+            "successTitle": "Check your email",
+            "successDescription": "We sent a link to reset your password.",
+            "successAlertDescription": "Open the email and follow the link to choose a new password.",
+            "errorTitle": "Failed to send reset link",
+            "validation": {
+                "email": "Enter a valid email address"
+            }
+        },
+        "newPassword": {
+            "heading": "Choose a new password",
+            "backButtonLabel": "Back to login",
+            "password": "New password",
+            "passwordConfirmation": "Confirm password",
+            "passwordPlaceholder": "********",
+            "submit": "Save password",
+            "submitting": "Saving...",
+            "successTitle": "Password updated",
+            "successDescription": "You can now log in with your new password.",
+            "errorTitle": "Failed to update password",
+            "validation": {
+                "passwordMin": "Password must be at least 8 characters",
+                "passwordMax": "Password must be at most 32 characters",
+                "passwordConfirmation": "Passwords do not match"
             }
         },
         "verify": {

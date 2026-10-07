@@ -2,9 +2,8 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslations } from 'next-intl'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import {
@@ -16,46 +15,47 @@ import {
 import { Input } from '@/components/ui/input'
 import { toast } from '@/components/ui/toast'
 import { AuthWrapper } from '../components/AuthWrapper'
-import { useLoginUserMutation } from '../hooks/use-login-user'
-import { loginSchema, type LoginValues } from '../schemas/auth/login.schema'
+import { useNewPasswordMutation } from '../hooks/use-new-password'
+import {
+    newPasswordSchema,
+    type NewPasswordValues,
+} from '../schemas/auth/new-password.schema'
 
-export function LoginForm() {
-    const t = useTranslations('auth.login')
+interface NewPasswordFormProps {
+    token: string
+}
+
+export function NewPasswordForm({ token }: NewPasswordFormProps) {
+    const t = useTranslations('auth.newPassword')
     const router = useRouter()
-    const [isShowTwoFactor, setIsShowTwoFactor] = useState(false)
-    const schema = useMemo(() => loginSchema(t), [t])
-    const form = useForm<LoginValues>({
+    const schema = useMemo(() => newPasswordSchema(t), [t])
+    const form = useForm<NewPasswordValues>({
         resolver: zodResolver(schema),
         defaultValues: {
-            login: '',
             password: '',
-            pin: '',
+            passwordConfirmation: '',
         },
     })
 
-    const [loginUser, { loading: isLoadingLoginUser }] = useLoginUserMutation()
+    const [setNewPassword, { loading: isLoadingNewPassword }] =
+        useNewPasswordMutation()
 
-    function onSubmit({ pin, ...data }: LoginValues) {
-        return loginUser({
+    function onSubmit(data: NewPasswordValues) {
+        return setNewPassword({
             variables: {
                 data: {
                     ...data,
-                    ...(pin ? { pin } : {}),
+                    token,
                 },
             },
         })
-            .then((result) => {
-                if (result.data?.login.message) {
-                    setIsShowTwoFactor(true)
-                    return
-                }
-
+            .then(() => {
                 toast.add({
                     type: 'success',
                     title: t('successTitle'),
                     description: t('successDescription'),
                 })
-                router.push('/dashboard/settings')
+                router.push('/account/login')
             })
             .catch((error: Error) => {
                 toast.add({
@@ -70,61 +70,10 @@ export function LoginForm() {
         <AuthWrapper
             heading={t('heading')}
             backButtonLabel={t('backButtonLabel')}
-            backButtonHref="/account/create"
+            backButtonHref="/account/login"
         >
             <form onSubmit={form.handleSubmit(onSubmit)}>
                 <FieldGroup>
-                    {isShowTwoFactor && (
-                        <Controller
-                            name="pin"
-                            control={form.control}
-                            render={({ field, fieldState }) => (
-                                <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel htmlFor={field.name}>
-                                        {t('pin')}
-                                    </FieldLabel>
-                                    <Input
-                                        {...field}
-                                        id={field.name}
-                                        inputMode="numeric"
-                                        autoComplete="one-time-code"
-                                        placeholder={t('pinPlaceholder')}
-                                        aria-invalid={fieldState.invalid}
-                                        disabled={isLoadingLoginUser}
-                                    />
-                                    {fieldState.invalid && (
-                                        <FieldError
-                                            errors={[fieldState.error]}
-                                        />
-                                    )}
-                                </Field>
-                            )}
-                        />
-                    )}
-                    {!isShowTwoFactor && (
-                    <>
-                    <Controller
-                        name="login"
-                        control={form.control}
-                        render={({ field, fieldState }) => (
-                            <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor={field.name}>
-                                    {t('login')}
-                                </FieldLabel>
-                                <Input
-                                    {...field}
-                                    id={field.name}
-                                    autoComplete="username"
-                                    placeholder={t('loginPlaceholder')}
-                                    aria-invalid={fieldState.invalid}
-                                    disabled={isLoadingLoginUser}
-                                />
-                                {fieldState.invalid && (
-                                    <FieldError errors={[fieldState.error]} />
-                                )}
-                            </Field>
-                        )}
-                    />
                     <Controller
                         name="password"
                         control={form.control}
@@ -137,10 +86,10 @@ export function LoginForm() {
                                     {...field}
                                     id={field.name}
                                     type="password"
-                                    autoComplete="current-password"
+                                    autoComplete="new-password"
                                     placeholder={t('passwordPlaceholder')}
                                     aria-invalid={fieldState.invalid}
-                                    disabled={isLoadingLoginUser}
+                                    disabled={isLoadingNewPassword}
                                 />
                                 {fieldState.invalid && (
                                     <FieldError errors={[fieldState.error]} />
@@ -148,20 +97,35 @@ export function LoginForm() {
                             </Field>
                         )}
                     />
-                    <Link
-                        href="/account/recovery"
-                        className="text-muted-foreground text-sm"
-                    >
-                        {t('forgotPassword')}
-                    </Link>
-                    </>
-                    )}
+                    <Controller
+                        name="passwordConfirmation"
+                        control={form.control}
+                        render={({ field, fieldState }) => (
+                            <Field data-invalid={fieldState.invalid}>
+                                <FieldLabel htmlFor={field.name}>
+                                    {t('passwordConfirmation')}
+                                </FieldLabel>
+                                <Input
+                                    {...field}
+                                    id={field.name}
+                                    type="password"
+                                    autoComplete="new-password"
+                                    placeholder={t('passwordPlaceholder')}
+                                    aria-invalid={fieldState.invalid}
+                                    disabled={isLoadingNewPassword}
+                                />
+                                {fieldState.invalid && (
+                                    <FieldError errors={[fieldState.error]} />
+                                )}
+                            </Field>
+                        )}
+                    />
                     <Button
                         type="submit"
                         className="w-full"
-                        disabled={isLoadingLoginUser}
+                        disabled={isLoadingNewPassword}
                     >
-                        {isLoadingLoginUser ? t('submitting') : t('submit')}
+                        {isLoadingNewPassword ? t('submitting') : t('submit')}
                     </Button>
                 </FieldGroup>
             </form>

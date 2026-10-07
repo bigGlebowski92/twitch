@@ -1,4 +1,7 @@
 {
+    "Home": {
+        "title": "Главная"
+    },
     "auth": {
         "register": {
             "heading": "Зарегистрируйте аккаунт",
@@ -43,6 +46,38 @@
                 "loginMin": "Введите имя пользователя или почту",
                 "passwordMin": "Пароль должен содержать минимум 8 символов",
                 "passwordMax": "Пароль должен содержать максимум 32 символа"
+            }
+        },
+        "recovery": {
+            "heading": "Сброс пароля",
+            "backButtonLabel": "Вернуться ко входу",
+            "email": "Электронная почта",
+            "emailPlaceholder": "john.doe@example.com",
+            "submit": "Отправить ссылку",
+            "submitting": "Отправка...",
+            "successTitle": "Проверьте почту",
+            "successDescription": "Мы отправили ссылку для сброса пароля.",
+            "successAlertDescription": "Откройте письмо и перейдите по ссылке, чтобы задать новый пароль.",
+            "errorTitle": "Не удалось отправить ссылку",
+            "validation": {
+                "email": "Введите корректный адрес электронной почты"
+            }
+        },
+        "newPassword": {
+            "heading": "Новый пароль",
+            "backButtonLabel": "Вернуться ко входу",
+            "password": "Новый пароль",
+            "passwordConfirmation": "Подтвердите пароль",
+            "passwordPlaceholder": "********",
+            "submit": "Сохранить пароль",
+            "submitting": "Сохранение...",
+            "successTitle": "Пароль обновлён",
+            "successDescription": "Теперь можно войти с новым паролем.",
+            "errorTitle": "Не удалось обновить пароль",
+            "validation": {
+                "passwordMin": "Пароль должен содержать минимум 8 символов",
+                "passwordMax": "Пароль должен содержать максимум 32 символа",
+                "passwordConfirmation": "Пароли не совпадают"
             }
         },
         "verify": {
