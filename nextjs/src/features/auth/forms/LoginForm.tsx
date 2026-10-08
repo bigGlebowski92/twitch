@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { toast } from '@/components/ui/toast'
+import { useAuth } from '@/hooks/useAuth'
 import { AuthWrapper } from '../components/AuthWrapper'
 import { useLoginUserMutation } from '../hooks/use-login-user'
 import { loginSchema, type LoginValues } from '../schemas/auth/login.schema'
@@ -22,6 +23,7 @@ import { loginSchema, type LoginValues } from '../schemas/auth/login.schema'
 export function LoginForm() {
     const t = useTranslations('auth.login')
     const router = useRouter()
+    const { login } = useAuth()
     const [isShowTwoFactor, setIsShowTwoFactor] = useState(false)
     const schema = useMemo(() => loginSchema(t), [t])
     const form = useForm<LoginValues>({
@@ -49,6 +51,8 @@ export function LoginForm() {
                     setIsShowTwoFactor(true)
                     return
                 }
+
+                login()
 
                 toast.add({
                     type: 'success',
@@ -102,59 +106,65 @@ export function LoginForm() {
                         />
                     )}
                     {!isShowTwoFactor && (
-                    <>
-                    <Controller
-                        name="login"
-                        control={form.control}
-                        render={({ field, fieldState }) => (
-                            <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor={field.name}>
-                                    {t('login')}
-                                </FieldLabel>
-                                <Input
-                                    {...field}
-                                    id={field.name}
-                                    autoComplete="username"
-                                    placeholder={t('loginPlaceholder')}
-                                    aria-invalid={fieldState.invalid}
-                                    disabled={isLoadingLoginUser}
-                                />
-                                {fieldState.invalid && (
-                                    <FieldError errors={[fieldState.error]} />
+                        <>
+                            <Controller
+                                name="login"
+                                control={form.control}
+                                render={({ field, fieldState }) => (
+                                    <Field data-invalid={fieldState.invalid}>
+                                        <FieldLabel htmlFor={field.name}>
+                                            {t('login')}
+                                        </FieldLabel>
+                                        <Input
+                                            {...field}
+                                            id={field.name}
+                                            autoComplete="username"
+                                            placeholder={t('loginPlaceholder')}
+                                            aria-invalid={fieldState.invalid}
+                                            disabled={isLoadingLoginUser}
+                                        />
+                                        {fieldState.invalid && (
+                                            <FieldError
+                                                errors={[fieldState.error]}
+                                            />
+                                        )}
+                                    </Field>
                                 )}
-                            </Field>
-                        )}
-                    />
-                    <Controller
-                        name="password"
-                        control={form.control}
-                        render={({ field, fieldState }) => (
-                            <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor={field.name}>
-                                    {t('password')}
-                                </FieldLabel>
-                                <Input
-                                    {...field}
-                                    id={field.name}
-                                    type="password"
-                                    autoComplete="current-password"
-                                    placeholder={t('passwordPlaceholder')}
-                                    aria-invalid={fieldState.invalid}
-                                    disabled={isLoadingLoginUser}
-                                />
-                                {fieldState.invalid && (
-                                    <FieldError errors={[fieldState.error]} />
+                            />
+                            <Controller
+                                name="password"
+                                control={form.control}
+                                render={({ field, fieldState }) => (
+                                    <Field data-invalid={fieldState.invalid}>
+                                        <FieldLabel htmlFor={field.name}>
+                                            {t('password')}
+                                        </FieldLabel>
+                                        <Input
+                                            {...field}
+                                            id={field.name}
+                                            type="password"
+                                            autoComplete="current-password"
+                                            placeholder={t(
+                                                'passwordPlaceholder',
+                                            )}
+                                            aria-invalid={fieldState.invalid}
+                                            disabled={isLoadingLoginUser}
+                                        />
+                                        {fieldState.invalid && (
+                                            <FieldError
+                                                errors={[fieldState.error]}
+                                            />
+                                        )}
+                                    </Field>
                                 )}
-                            </Field>
-                        )}
-                    />
-                    <Link
-                        href="/account/recovery"
-                        className="text-muted-foreground text-sm"
-                    >
-                        {t('forgotPassword')}
-                    </Link>
-                    </>
+                            />
+                            <Link
+                                href="/account/recovery"
+                                className="text-muted-foreground text-sm"
+                            >
+                                {t('forgotPassword')}
+                            </Link>
+                        </>
                     )}
                     <Button
                         type="submit"

@@ -1,6 +1,14 @@
 import { useMutation } from '@apollo/client/react'
-import { VerifyAccountDocument } from '@/graphql/generated/graphql'
+import {
+    VerifyAccountDocument,
+    type VerifyAccountMutation,
+    type VerifyAccountMutationVariables,
+} from '@/graphql/generated/graphql'
 
-export function useVerifyAccountMutation() {
-    return useMutation(VerifyAccountDocument)
+type VerifyAccountOptions = Parameters<
+    typeof useMutation<VerifyAccountMutation, VerifyAccountMutationVariables>
+>[1]
+
+export function useVerifyAccountMutation(options?: VerifyAccountOptions) {
+    return useMutation(VerifyAccountDocument, options)
 }

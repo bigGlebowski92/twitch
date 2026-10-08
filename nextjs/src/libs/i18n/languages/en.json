@@ -2,6 +2,19 @@
     "Home": {
         "title": "Home"
     },
+    "header": {
+        "menu": "Menu",
+        "home": "Home",
+        "following": "Following",
+        "browse": "Browse",
+        "search": "Search",
+        "searchPlaceholder": "Search",
+        "logIn": "Log In",
+        "signUp": "Sign Up",
+        "profile": "Profile",
+        "settings": "Settings",
+        "logOut": "Log out"
+    },
     "auth": {
         "register": {
             "heading": "Register your account",

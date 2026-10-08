@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useRef } from 'react'
 import { toast } from '@/components/ui/toast'
 import { useVerifyAccountMutation } from '@/features/auth/hooks/use-verify-account'
+import { useAuth } from '@/hooks/useAuth'
 import { AuthWrapper } from '../components/AuthWrapper'
 
 const startedTokens = new Set<string>()
@@ -14,6 +15,8 @@ export function VerifyAccountForm() {
     const t = useTranslations('auth.verify')
 
     const router = useRouter()
+    const { login } = useAuth()
+
     const searchParams = useSearchParams()
     const token = searchParams.get('token')
     const hasStarted = useRef(false)
@@ -27,6 +30,7 @@ export function VerifyAccountForm() {
                     description: t('successDescription'),
                 })
                 router.push('/')
+                login()
             },
             onError: () => {
                 toast.add({

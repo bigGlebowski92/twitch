@@ -2,6 +2,19 @@
     "Home": {
         "title": "Главная"
     },
+    "header": {
+        "menu": "Меню",
+        "home": "Главная",
+        "following": "Отслеживаемые",
+        "browse": "Обзор",
+        "search": "Поиск",
+        "searchPlaceholder": "Поиск",
+        "logIn": "Войти",
+        "signUp": "Регистрация",
+        "profile": "Профиль",
+        "settings": "Настройки",
+        "logOut": "Выйти"
+    },
     "auth": {
         "register": {
             "heading": "Зарегистрируйте аккаунт",
