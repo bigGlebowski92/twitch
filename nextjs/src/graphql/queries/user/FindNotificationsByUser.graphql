@@ -1,0 +1,9 @@
+query FindNotificationsByUser {
+    findNotificationsByUser {
+        id
+        message
+        type
+        isRead
+        createdAt
+    }
+}

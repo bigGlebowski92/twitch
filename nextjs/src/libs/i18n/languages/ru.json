@@ -13,7 +13,9 @@
         "signUp": "Регистрация",
         "profile": "Профиль",
         "settings": "Настройки",
-        "logOut": "Выйти"
+        "logOut": "Выйти",
+        "notifications": "Уведомления",
+        "notificationsEmpty": "Уведомлений пока нет"
     },
     "auth": {
         "register": {
